@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <meta name="renderer" content="webkit"/>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1 minimum-scale=1"/>
+        <meta name="data-spm" content=""/>
+        <title>demo1</title>
+        <!-- S GLOBAL CSS -->
+        <!-- E GLOBAL CSS -->
+        <!-- S GLOBAL JS -->
+        <script src="https://alinw.alipayobjects.com/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-text/1.0.2/seajs-text.js,seajs/seajs-style/1.0.2/seajs-style.js,seajs/seajs-log/1.0.0/seajs-log.js,gallery/json/1.0.3/json.js"></script>
+        <!-- E GLOBAL JS -->
+
+        <script>
+        seajs.config({
+            // local environment begin
+                // local environment end
+             paths: {
+                   alinw: '//alinw.alicdn.com/alinw'
+             },
+            alias:{
+                demo2:'/src/demo2',
+                demo4:'/src/demo4',
+                $: 'jquery/jquery/1.9.1/jquery',
+                jquery: 'jquery/jquery/1.9.1/jquery',
+                tip: 'alinw/tip/2.2.0/tip'
+            },
+            preload: ['$'],
+            vars: {
+                locale: 'zh-cn'
+            }
+        });
+        </script>
+
+    </head>
+    <body>
+        <div id="demo2"></div>
+
+        <button id="bt">慢一点100毫秒</button>
+
+        <script type="text/javascript">
+        /*
+            次处使用了模块demo3，具体实现在demo3中，使用了实例方法start方法启动交互，但是demo3的实现与demo2的实现是有区别的;
+         */
+        seajs.use(['demo4'], function(demo4) {
+            demo4.init();
+         });
+        </script>
+    </body>
+</html>
