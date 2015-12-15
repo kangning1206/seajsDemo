@@ -1,0 +1,9 @@
+/* 重置内容区域最大宽度*/
+slides>slide .slide-wrapper{
+    max-width: 1000px;
+    text-align: left;
+}
+
+slides>slide .slide-wrapper h2{
+    text-align: center;
+}
