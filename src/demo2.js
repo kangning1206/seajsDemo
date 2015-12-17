@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-
+    require('./demo')
     //模块实现代码
     var tid = 0;
     var demo2 = {
