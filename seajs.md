@@ -875,6 +875,7 @@ daily域名 https://g-assets.daily.taobao.net
 ## 资源
 * 官网 http://seajs.org/docs/#docs
 * demo https://github.com/kangning1206/seajsDemo/
+* 前端ux网站 http://ux.alibaba.net/
 
 
 
