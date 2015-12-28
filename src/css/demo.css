@@ -13,3 +13,9 @@ slides>slide .slide-wrapper h1,slides>slide .slide-wrapper h2{
 .tb td a{
   color: red;
 }
+
+.html.hljs,
+.javascript.hljs{
+    max-height: 800px;
+    overflow: auto;
+}

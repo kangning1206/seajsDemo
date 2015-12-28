@@ -11,7 +11,8 @@ seajs 基础知识demo
 > npm install
 
 - 启动 ppt
-> nodeppt start -p 8000
+> nodeppt start
+> anywhere
 
 使用 http://30.10.39.96:8000/md/seajs.md 查看
 
