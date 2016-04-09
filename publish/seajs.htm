@@ -1,0 +1,956 @@
+<!--
+    Powered By nodePPT - This is probably the best web presentation tool so far!
+    version: 1.4.1
+    site: https://github.com/ksky521/nodePPT
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>seajs - By 张顺</title>
+    <link rel="stylesheet" media="all" href="./css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="./css/phone.css">
+    
+    <link rel="stylesheet" href="./js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./css/font-awesome.css">
+    
+<link rel="stylesheet" href="./css/theme.moon.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>seajs-基础教程</h1>
+<h2>平台技术部-前端开发(2015/12/15)</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><hgroup>
+<h2>iframe效果</h2>
+
+</hgroup><article>
+
+<iframe data-src="http://127.0.0.1:8000/demo1.htm" src="about:blank;"></iframe>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><hgroup>
+<h2>html代码</h2>
+
+</hgroup><article>
+
+<pre><code class="html">&lt;!doctype html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;/&gt;
+        &lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;/&gt;
+        &lt;meta charset=&quot;utf-8&quot;/&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1 minimum-scale=1&quot;/&gt;
+        &lt;meta name=&quot;data-spm&quot; content=&quot;&quot;/&gt;
+        &lt;title&gt;demo1&lt;/title&gt;
+        &lt;!-- S GLOBAL CSS --&gt;
+        &lt;!-- E GLOBAL CSS --&gt;
+        &lt;!-- S GLOBAL JS --&gt;
+        &lt;script src=&quot;https://a.alipayobjects.com/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-text/1.0.2/seajs-text.js,seajs/seajs-style/1.0.2/seajs-style.js,seajs/seajs-log/1.0.0/seajs-log.js,gallery/json/1.0.3/json.js&quot;&gt;&lt;/script&gt;
+        &lt;!-- E GLOBAL JS --&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+        #demo1{
+            color: red;
+            font-size: 32px;
+        }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;demo1&quot;&gt;&lt;/div&gt;
+        &lt;script type=&quot;text/javascript&quot;&gt;
+        /*
+            seajs是全局对象，提供了use方法，参数1是模块数组，参数2是模块实例回调;
+            次处无定义模块，仅说明use方法的使用;
+         */
+        seajs.use([], function() {
+             window.setInterval(function() {
+                 document.getElementById(&quot;demo1&quot;).innerText = &#39;我每秒会变更一次，随机数:&#39; + Math.floor(Math.random() * 100);
+             }, 1000);
+         });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>seajs 是什么?</h1>
+<p>seajs 是一个遵循<code>CommonJS规范</code>的JavaScript<code>模块加载</code>框架，可以实现JavaScript的模块化开发及加载机制</p>
+<p><a href="#9">一个简单的模块</a></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><hgroup>
+<h2>为什么选择 seajs</h2>
+
+</hgroup><article>
+
+<ul class="rollIn">
+<li>seajs 追求简单、自然的<code>代码书写</code>和<code>组织方式</code>，遵循 CommonJS 规范</li>
+<li>解决<code>文件依赖</code>，配置简单清晰，关注模块代码本身实现，提供简单、极致的模块化开发体验</li>
+<li>模块真正的<code>可复用</code></li>
+<li><code>职责</code>仅<code>模块加载</code>，可运行在任何浏览器引擎上，比如移动端</li>
+<li>遵循MIT 协议，无论个人还是公司，都可以<code>免费</code>自由使用</li>
+<li>提供常用插件，有助于开发调试和性能优化，并具有丰富的可扩展接口</li>
+<li>丰富业务 ui 组件<a href="http://aralejs.org/" target="_blank">arale</a>以及 alinw 组件</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>目录结构</h2>
+<pre><code class="html">examples/
+  |-- dist              存放 build 后文件目录
+  |-- sea-modules       存放 seajs、jquery 等文件，这也是模块的部署目录
+  |-- src               存放各个项目的 js、css 文件
+  |     |-- home.js
+  |     |-- list.js
+  |     `-- common
+  |-- app               存放 html 等文件
+  |     |-- home.htm
+  |     |-- list.htm
+  |     `-- demo.htm
+  `-- package.json
+</code></pre>
+
+</article></section></slide>
+<slide class="slide hasnote"><aside class="note">
+<section>
+<ul>
+<li>项目目录是我们建议目录</li>
+<li>i18n是项目全局语言包地址，也可以考虑每个模块定义自己的i18n</li>
+<li>config.js 是seajs全局静态配置文件，动态的配置请在vm 页面完成</li>
+</ul>
+
+</section>
+</aside><section class="slide-wrapper"><article>
+<h2>项目目录</h2>
+<pre><code class="html">examples/
+  |-- dist              存放 build 后文件目录
+  |-- sea-modules       存放 seajs、jquery 等文件，这也是依赖的外部模块目录
+  |-- src               存放各个项目的 js、css 文件
+  |     |-- css         存放 css 文件目录  
+  |     |-- i18n        存放 i18n 国际化文件目录
+  |     |-- iconfont    存放 iconfont 资源目录
+  |     `-- modules     存放 模块 js 目录      
+  |         |-- home
+  |         |   `-- index.js
+  |         |-- list
+  |         |    `-- index.js
+  |         `-- demo
+  |             `-- index.js
+  |     |-- config.js
+  |-- app              存放 html 等文件
+  |     |-- home.htm
+  |     |-- list.htm
+  |     `-- demo.htm
+  `-- package.json
+</code></pre>
+<p>请按 [N] 键盘</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><hgroup>
+<h2>组成部分与执行过程</h2>
+
+</hgroup><article>
+
+<p>seajs 是一个模块加载器，模块加载器需要实现两个基本功能：</p>
+<ul class="rollIn">
+<li>实现模块定义规范，这是模块系统的基础</li>
+<li>模块系统的启动与运行</li>
+</ul>
+<p>过程<a href="http://127.0.0.1:8080/demo2.htm" target="_blank">实例</a> githubDemo</p>
+<ul class="rollIn">
+<li>seajs 框架和插件文件，引入 cdn 资源</li>
+<li>运行环境配置，配置paths、alias、语言、combo等</li>
+<li>模块定义，定义页面功能模块和公共模块</li>
+<li>seajs.use 方法启动加载运行模块</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>html代码</h2>
+<pre><code class="html">&lt;!doctype html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;/&gt;
+        &lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;/&gt;
+        &lt;meta charset=&quot;utf-8&quot;/&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1 minimum-scale=1&quot;/&gt;
+        &lt;meta name=&quot;data-spm&quot; content=&quot;&quot;/&gt;
+        &lt;title&gt;demo2&lt;/title&gt;
+        &lt;!-- S GLOBAL CSS --&gt;
+        &lt;!-- E GLOBAL CSS --&gt;
+        &lt;!-- S GLOBAL JS --&gt;
+        &lt;script src=&quot;https://a.alipayobjects.com/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-text/1.0.2/seajs-text.js,seajs/seajs-style/1.0.2/seajs-style.js,seajs/seajs-log/1.0.0/seajs-log.js,gallery/json/1.0.3/json.js&quot;&gt;&lt;/script&gt;
+        &lt;!-- E GLOBAL JS --&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;demo2&quot;&gt;&lt;/div&gt;
+
+        &lt;button id=&quot;bt&quot;&gt;慢一点100毫秒&lt;/button&gt;
+
+        &lt;script type=&quot;text/javascript&quot;&gt;
+        /*
+            次处使用了模块demo2，具体实现在demo2中，使用了实例方法start方法启动交互;
+         */
+        seajs.use([&#39;./src/demo2&#39;], function(demo2) {
+            demo2.start();
+         });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>模块代码</h2>
+<pre><code class="javascript">define(function(require, exports, module) {
+
+    //模块实现代码
+    var tid = 0;
+    var demo2 = {
+        speed: 1000,
+        start: function() {
+            var me = this;
+            clearInterval(tid);
+            tid = window.setInterval(function() {
+                console.log(me.speed)
+                document.getElementById(&quot;demo2&quot;).innerText = &#39;我每秒会变更一次，随机数:&#39; + Math.floor(Math.random() * 100);
+            }, me.speed);
+        }
+    }
+
+    document.getElementById(&#39;bt&#39;).addEventListener(&#39;click&#39;, function() {
+        demo2.speed = demo2.speed + 100;
+        demo2.start();
+    }, false);
+
+    //将对象暴漏给外部
+    module.exports = demo2;
+});
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>CMD 模块定义规范</h2>
+<blockquote>
+<p>使用 define 定义模块，define原型很多，但只要记住下边的即可，注意下边这个是src开发阶段模块定义；
+module.exports 才是提供给外部使用，其他变量和对象都是内部使用；
+次数涉及到4个define，require，exports，module，使用 define 定义模块，require引用其他模块，
+exports和module输出模块功能</p>
+</blockquote>
+<pre><code class="javascript">define(function(require, exports, module) {
+    var $ = require(&#39;$&#39;);
+    // 正确写法
+    module.exports = {
+        foo: &#39;bar&#39;,
+        doSomething: function() {}
+    };
+});
+</code></pre>
+<blockquote>
+<p>build 后代码,参数1 是<code>表识ID</code>，参数2是依赖数组，参数3是模块实现</p>
+</blockquote>
+<pre><code class="javascript">define(&quot;platform/seajsDemo/0.0.1/demo&quot;, [&quot;jquery/jquery/1.9.1/jquery&quot;], function(require, exports, module) {
+    require(&quot;jquery/jquery/1.9.1/jquery&quot;);
+    module.exports = {
+        foo: &quot;bar&quot;,
+        doSomething: function() {}
+    }
+});
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><hgroup>
+<h2>模块加载</h2>
+
+</hgroup><article>
+
+<p>seajs 是一个模块加载器，模块加载器需要实现两个基本功能：</p>
+<ul>
+<li>实现模块定义规范，这是模块系统的基础；</li>
+<li>模块系统的启动与运行；</li>
+<li><code>seajs.use</code> 是模块加载器必备的一个接口，默认扩展名是<code>.js</code>，框架会自动追加;</li>
+</ul>
+<pre><code>// seajs是全局变量，提供的 use 方法可以理解成C语言 main 函数，
+//是个入口方法，一个页面至少需要一个seajs.use方法，但我们也不有对于1个的use方法，会出现意想不到奇怪问题；
+
+// 启动foo模块
+seajs.use(&#39;./foo&#39;);
+
+seajs.use([&#39;platform/seajsDemo/0.0.1/foo&#39;], function(foo) {
+    foo.start();
+});
+</code></pre>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>require 引用模块</h2>
+<p>require 引用模块有别名、标识、相对三种方式，原则是外部模块组件使用别名，项目内使用相对路径，
+require 会将参数解析转化为文件路径；
+比如 </p>
+<pre><code>require(&quot;my-module&quot;);
+require(&quot;./my-module&quot;);
+</code></pre><h2>注意事项-约定</h2>
+<ul>
+<li>define 参数require 不用使用其他命名;</li>
+<li>require 不要重命名;</li>
+<li>require 参数不支持变量，正确是的使用常量字符串，build过程生成模块是静态过程，动态无法确定模块;</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>配置</h2>
+<ul>
+<li>使用seajs.config() 方法设置环境;</li>
+<li>主要配置别名、路径，在控制台使用 seajs.data 可查看配置</li>
+<li>配置与路径关系</li>
+</ul>
+<table class='tb'>
+  <thead>
+  <tr>
+    <th>name</th>
+    <th>base</th>
+    <th>alias</th>
+    <th>paths</th>
+    <th>结果</th>
+    <th>结论</th>
+  </tr>
+  </thead>
+<tr>
+  <td>require(&#39;jquery&#39;)</td>
+  <td><a href="https://a.alipayobjects.com/" target="_blank">https://a.alipayobjects.com/</a></td>
+  <td>&#39;jquery&#39;: &#39;jquery/jquery/1.9.1/jquery&#39;</td>
+  <td>无</td>
+  <td><a href="https://a.alipayobjects.com/jquery/jquery/1.9.1/jquery.js" target="_blank">https://a.alipayobjects.com/jquery/jquery/1.9.1/jquery.js</a></td>
+  <td>无paths时，base+alias</td>
+</tr>
+
+<tr>
+  <td>require(&#39;platform/seajsDemo/0.0.1/demo5&#39;)</td>
+  <td><a href="https://a.alipayobjects.com/" target="_blank">https://a.alipayobjects.com/</a></td>
+  <td>无</td>
+  <td>platform: &#39;<a href="http://127.0.0.1:8080/dist/platform" target="_blank">http://127.0.0.1:8080/dist/platform</a>&#39;</td>
+  <td><a href="http://127.0.0.1:8080/dist/platform/seajsDemo/0.0.1/demo5.js" target="_blank">http://127.0.0.1:8080/dist/platform/seajsDemo/0.0.1/demo5.js</a></td>
+  <td>paths+name</td>
+</tr>
+
+<tr>
+  <td>require(&#39;dialog&#39;)</td>
+  <td><a href="https://a.alipayobjects.com/" target="_blank">https://a.alipayobjects.com/</a></td>
+  <td>&#39;dialog&#39;: &#39;arale/dialog/1.2.4/dialog&#39;</td>
+  <td>&#39;arale&#39;: &#39;<a href="https://a.alipayobjects.com/arale" target="_blank">https://a.alipayobjects.com/arale</a>&#39;</td>
+  <td><a href="https://a.alipayobjects.com/arale/dialog/1.2.4/dialog" target="_blank">https://a.alipayobjects.com/arale/dialog/1.2.4/dialog</a></td>
+  <td>paths替换arale中key，也就是 <code>arale</code>/dialog/1.2.4/dialog 会替换后的字符串</td>
+</tr>
+
+<tr>
+  <td>require(&#39;./demo&#39;)</td>
+  <td><a href="https://a.alipayobjects.com/" target="_blank">https://a.alipayobjects.com/</a></td>
+  <td>无</td>
+  <td>无</td>
+  <td><a href="http://127.0.0.1:8080/demo.js" target="_blank">http://127.0.0.1:8080/demo.js</a></td>
+  <td>网站根目录+name</td>
+</tr>
+</table>
+
+<blockquote>
+<p>结论，正确的做法是每个组件至少需要配置path或者alia，这样才能找到正确路径；</p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>配置例子</h2>
+<pre><code class="javascript">(function() {
+
+    // seajs配置（打包和运行时共用）
+    var config = {
+
+        alias: {
+            &#39;seajs-debug&#39;: &#39;seajs/seajs-debug/1.1.1/seajs-debug&#39;,
+            &#39;$&#39;: &#39;jquery/jquery/1.9.1/jquery&#39;,
+            &#39;$-debug&#39;: &#39;jquery/jquery/1.9.1/jquery&#39;,
+            &#39;jquery&#39;: &#39;jquery/jquery/1.9.1/jquery&#39;,
+            &#39;jquery-debug&#39;: &#39;jquery/jquery/1.9.1/jquery-debug&#39;,
+            &#39;dialog&#39;: &#39;arale/dialog/1.2.4/dialog&#39;,
+        },
+        crossorigin: true,
+        comboSyntax: [&#39;??&#39;, &#39;,&#39;],
+        comboMaxLength: 1000,
+        paths: {},
+        preload: [],
+        charset: &#39;utf-8&#39;,
+        timeout: 1000,
+        debug: true
+    };
+
+    // 仅限浏览器时使用
+    if (typeof seajs !== &#39;undefined&#39;) {
+
+        //var cdnHost = &#39;/dist&#39;
+
+        var isDaily = false;
+        if (typeof document !== &#39;undefined&#39;) {
+            var scripts = document.getElementsByTagName(&#39;script&#39;);
+            isDaily = (scripts[scripts.length - 1].src || &#39;&#39;).indexOf(&#39;//alinw.alicdn.com&#39;) == -1;
+        }
+        var cdnHost = isDaily ? &#39;//g-assets.daily.taobao.net&#39; : &#39;//alinw.alicdn.com&#39;;
+
+        // 路径前缀定义
+        config.paths = {
+            &#39;gallery&#39;: &#39;https://a.alipayobjects.com/gallery&#39;,
+            &#39;arale&#39;: &#39;https://a.alipayobjects.com/arale&#39;,
+            &#39;alipay&#39;: &#39;https://a.alipayobjects.com/alipay&#39;,
+            &#39;platform&#39;: cdnHost + &#39;/platform&#39;,
+        };
+        seajs.config(config);
+    }
+
+    // 兼容cmd规范
+    if (typeof define === &#39;function&#39;) {
+        define(function(require, exports, module) {
+            module.exports = config;
+        });
+    }
+
+    return config;
+})();
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>常见问题</h1>
+<ul>
+<li>模块的对应的js加载了，为什么代码没运行？<blockquote>
+<p>问题分析: seajs 是按照模块标识加载了，这里是标识错误，但标识对应的js路径正确，因此加载了，但标识错误，无法识别，所以没有运行;请查看<a href="https://github.com/seajs/seajs/issues/930" target="_blank">ID 和路径匹配原则</a></p>
+</blockquote>
+</li>
+<li>仅require 模块，还没有初始化模块或者实例，但模块已经运行了;<blockquote>
+<p>问题分析: require 一个模块时，模块内部代码会逐行执行，正确的做法是对外暴漏方法，由外部使用者主动调用，同事内部过程不应该出现过程代码;</p>
+</blockquote>
+</li>
+<li>调试过程中 chrome 中正常，ie出部分区域div没有渲染，但ie没有任何错误提醒，诡异问题;<blockquote>
+<p>问题分析: 注意下模块中是否有 require(&#39;foo.css&#39;)，当一个也没有超过32个require css时，ie内部报错，超过加载个数，建议在外部css文件合并模块css,模块中不使用require(&#39;foo.css&#39;);</p>
+</blockquote>
+</li>
+<li>jquery 插件已转化为seajs模块方法，项目模块中也requre 了jquery 插件模块，但$下没有插件？<blockquote>
+<p>第一请确保正确转化，第二是可能项目在也没引入了另外一个jquery，后边的jquery将已经挂载好的jquery给重置了，一般是第二种造成的</p>
+</blockquote>
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>信息平台前端项目-脚手架生成过程</h1>
+<img src="https://img.alicdn.com/tps/TB1HLOVLXXXXXXhXFXXXXXXXXXX-977-602.gif" alt="alinwDemo">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>信息平台前端项目</h2>
+<p>layout/default.vm </p>
+<pre><code class="html">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;/&gt;
+&lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;/&gt;
+&lt;meta charset=&quot;utf-8&quot;/&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1 minimum-scale=1&quot;/&gt;
+&lt;meta name=&quot;data-spm&quot; content=&quot;&quot;/&gt;
+&lt;title&gt;$!{pageTitle}&lt;/title&gt;
+
+## STYLES
+$control.setTemplate(&quot;infovmcommon/s/1.1/favicon.vm&quot;)
+$control.setTemplate(&quot;infovmcommon/s/1.1/css.vm&quot;)
+&lt;link rel=&quot;stylesheet&quot; href=&quot;${gitFamily}/alinwDemo/${gitVersion}/css/index.css&quot;/&gt;
+
+## SEAJS CONFIG
+$control.setTemplate(&quot;infovmcommon/s/1.1/js.vm&quot;).setParameter(&quot;simple&quot;, 1)
+&lt;script src=&quot;${gitFamily}/alinwDemo/${gitVersion}/config.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+seajs.config({
+    #if(${gitVersion} == &quot;src&quot;)
+        ## LOCAL ENV
+        comboExcludes: /.*/,
+        preload: [ &#39;crystal/plugins/1.0.1/handlebars&#39; ],
+        map: [
+            [ seajs.resolve(&#39;platform/alinwDemo/${gitVersion}/&#39;), &#39;${gitFamily}/alinwDemo/${gitVersion}/&#39; ]
+        ],
+    #else
+        ## PACKED ENV
+        alias: {
+            handlebars: &#39;alinw/handlebars/1.3.0/runtime&#39;
+        },
+    #end
+    vars: {
+        locale: &#39;${locale}&#39;
+    }
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body data-spm=&quot;$!{spmPageId}&quot; class=&quot;i18n-${locale}&quot;&gt;
+
+#if(${gitVersion} != &quot;src&quot;)
+## SPM &amp; GoldLog &amp; JsTracker
+$control.setTemplate(&quot;infovmcommon/s/1.1/monitor.vm&quot;)
+#end
+
+## HEADER
+$control.setTemplate(&quot;infovmcommon/s/1.1/header.vm&quot;).setParameter(&quot;width&quot;, 1000)
+$control.setTemplate(&quot;header.vm&quot;)
+
+## SCREEN
+$screen_placeholder
+
+## FOOTER
+$control.setTemplate(&quot;infovmcommon/s/1.1/footer.vm&quot;)
+
+## JS ENTRY
+&lt;script&gt;
+seajs.use([
+    &#39;crystal&#39;,
+    &#39;platform/alinwDemo/${gitVersion}/modules/common.setup/index&#39;
+], function(crystal, setup) {
+    var app = crystal.app;
+
+    // 请求路径前缀和其他的应用级别的变量
+    app.set(&#39;demoPrefix&#39;, &#39;/demo/&#39;);
+    app.set(&#39;workPrefix&#39;, &#39;https://work.alibaba-inc.com/&#39;);
+
+    setup({
+        family: &#39;platform&#39;, // 前端组名
+        name: &#39;alinwDemo&#39;, // 前端应用名
+        pageTitle: &#39;$!{pageTitle}&#39;, // 页面标题（这里注意要做单引号双引号的转义）
+        debug: ${isDaily}, // 是否是测试环境
+        gitVersion: &#39;${gitVersion}&#39;, // 前端GIT版本号
+        csrfToken: &#39;&#39;,
+        defaultParams: { // 所有请求默认带上的参数
+            locale: &#39;${locale}&#39;
+        },
+        appName: &#39;demo&#39;, // 在BUC注册的appName
+        backUrl: &#39;/demo/loginSuccess.htm&#39;, // 登录成功的回调页面
+        contextPath: &#39;demo&#39; // 后端应用名
+    });
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>本地开发，vm生成的html</p>
+<pre><code class="html">&lt;!doctype html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;/&gt;
+        &lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;/&gt;
+        &lt;meta charset=&quot;utf-8&quot;/&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1 minimum-scale=1&quot;/&gt;
+        &lt;meta name=&quot;data-spm&quot; content=&quot;&quot;/&gt;
+        &lt;title&gt;Alinw Demo&lt;/title&gt;
+        &lt;!-- S GLOBAL Favicon --&gt;
+        &lt;link rel=&quot;apple-touch-icon-precomposed&quot; sizes=&quot;114x114&quot; href=&quot;//aliwork.alicdn.com/tps/i2/TB1Al7VFVXXXXcIXXXXazxJIVXX-144-144.png&quot;/&gt;
+        &lt;link rel=&quot;shortcut icon&quot; href=&quot;//aliwork.alicdn.com/tps/i3/TB1H68pGFXXXXX9XXXXFArBHXXX-48-48.ico&quot; type=&quot;image/x-icon&quot;&gt;
+        &lt;!-- E GLOBAL Favicon --&gt;
+
+        &lt;!-- S GLOBAL CSS --&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;//alinw.alicdn.com/??platform/common/s/1.1/global/global.css,alinw/kuma/3.0.4/kuma.css?t=201505220846&quot;/&gt;
+        &lt;!-- E GLOBAL CSS --&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;http://30.10.101.236:3000/alinwDemo/src/css/index.css&quot;/&gt;
+        &lt;!-- S GLOBAL JS --&gt;
+        &lt;script src=&quot;https://alinw.alipayobjects.com/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-style/1.0.2/seajs-style.js&quot;&gt;&lt;/script&gt;
+        &lt;!-- E GLOBAL JS --&gt;
+        &lt;script src=&quot;http://30.10.101.236:3000/alinwDemo/src/config.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+        seajs.config({
+
+
+        comboExcludes: /.*/,
+        preload: [ &#39;crystal/plugins/1.0.1/handlebars&#39; ],
+        map: [
+        [ seajs.resolve(&#39;platform/alinwDemo/src/&#39;), &#39;http://30.10.101.236:3000/alinwDemo/src/&#39; ]
+        ],
+
+        vars: {
+        locale: &#39;zh-cn&#39;
+        }
+        });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body data-spm=&quot;&quot; class=&quot;i18n-zh-cn&quot;&gt;
+        &lt;!-- S GLOBAL HTML --&gt;
+        &lt;div id=&quot;ais-remote-header&quot; style=&quot;height: 36px;&quot;&gt;&lt;/div&gt;
+        &lt;script type=&quot;text/javascript&quot;
+        src=&quot;//alinw.alicdn.com/??platform/openwork/jssdk/sdk.min.js,secdev/pointman/js/index.js?t=201506011615&quot;
+        app=&quot;alinw&quot;&gt;&lt;/script&gt;
+
+        &lt;script type=&quot;text/javascript&quot;&gt;
+        TOP.ui(&#39;headhr&#39;, {
+        container: &#39;#ais-remote-header&#39;,
+        pageWidth: &#39;1000&#39;,
+        locale: &#39;zh-cn&#39;,
+        theme: &#39;white&#39;
+        })
+        &lt;/script&gt;
+        &lt;!-- E GLOBAL HTML   --&gt;
+        &lt;div class=&quot;header&quot;&gt;
+            &lt;div class=&quot;kuma-container-1000&quot;&gt;
+                &lt;a class=&quot;logo&quot; href=&quot;https://work.alibaba-inc.com/work/home&quot;&gt;&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;kuma-container main&quot;&gt;
+            &lt;div class=&quot;kuma-form&quot; data-widget=&quot;~/demo.filter/&quot;&gt;&lt;/div&gt;
+            &lt;div data-widget=&quot;~/demo.list/&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;!-- S GLOBAL HTML --&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+        .footer {
+        position: relative;
+        font: 12px/1.5 tahoma, arial, &#39;Hiragino Sans GB&#39;, \5b8b\4f53, sans-serif;
+
+        padding-left: 10px;
+        padding-right: 10px;
+
+        margin: 0 auto;
+        text-align: center;
+        color: #999;
+        padding-bottom: 10px;
+        }
+        .footer .footer-hd,
+        .footer .footer-bd {
+        line-height: 27px;
+        }
+        .footer .footer-hd {
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #dfdede;
+        }
+        .footer a {
+        color: #999;
+        padding: 0 3px;
+        text-decoration: none;
+        }
+        .footer a:hover {
+        color: #288df0;
+        }
+        .footer b,
+        .footer .font-special {
+        font-family: &#39;simsun&#39;, sans-serif;
+        }
+        &lt;/style&gt;
+        &lt;div id=&quot;footer&quot; class=&quot;footer border-top&quot;&gt;
+            &lt;div class=&quot;footer-hd&quot;&gt;
+                &lt;p&gt;
+                    &lt;a href=&quot;https://admin.alibaba-inc.com/goods/adminhome/home.htm&quot; target=&quot;_blank&quot;&gt;&amp;#34892;&amp;#25919;&lt;/a&gt;
+                    &lt;a href=&quot;https://meeting.alibaba-inc.com/&quot; target=&quot;_blank&quot;&gt;&amp;#20250;&amp;#35758;&amp;#23460;&lt;/a&gt;
+                    &lt;b&gt;|&lt;/b&gt;
+                    &lt;a href=&quot;https://ehr.alibaba-inc.com/welfare/&quot; target=&quot;_blank&quot;&gt;&amp;#20840;&amp;#27225;&amp;#29233;&lt;/a&gt;
+                    &lt;a href=&quot;https://iperformance.alibaba-inc.com/performance&quot; target=&quot;_blank&quot;&gt;&amp;#32489;&amp;#25928;&lt;/a&gt;
+                    &lt;a href=&quot;https://alihr.alibaba.com:4430&quot; target=&quot;_blank&quot;&gt;PS&lt;/a&gt;
+                    &lt;a href=&quot;https://hr.alibaba-inc.com/zhaopin&quot; target=&quot;_blank&quot;&gt;&amp;#25512;&amp;#33616;/&amp;#36716;&amp;#23703;&lt;/a&gt;
+                    &lt;a href=&quot;https://ehr.alibaba-inc.com/sc/&quot; target=&quot;_blank&quot;&gt;HR&amp;#26381;&amp;#21153;&amp;#20013;&amp;#24515;&lt;/a&gt;
+                    &lt;b&gt;|&lt;/b&gt;
+                    &lt;a href=&quot;https://it.alibaba-inc.com/portal/homepage&quot; target=&quot;_blank&quot;&gt;IT&lt;/a&gt;
+                    &lt;a href=&quot;https://alilang.alibaba-inc.com&quot; target=&quot;_blank&quot;&gt;&amp;#38463;&amp;#37324;&amp;#37070;&lt;/a&gt;
+                    &lt;a href=&quot;https://webmail.alibaba-inc.com/alimail/&quot; target=&quot;_blank&quot;&gt;&amp;#38463;&amp;#37324;&amp;#20113;&amp;#37038;&lt;/a&gt;
+                    &lt;a href=&quot;https://asset.alibaba-inc.com/workflow/myassets/index&quot; target=&quot;_blank&quot;&gt;&amp;#36164;&amp;#20135;&amp;#24179;&amp;#21488;&lt;/a&gt;
+                    &lt;b&gt;|&lt;/b&gt;
+                    &lt;a href=&quot;https://bpms.alibaba-inc.com&quot; target=&quot;_blank&quot;&gt;&amp;#27969;&amp;#31243;&amp;#24179;&amp;#21488;&lt;/a&gt;
+                    &lt;a href=&quot;https://iportal.alibabacorp.com/portal/default.aspx&quot; target=&quot;_blank&quot;&gt;&amp;#36130;&amp;#21153;&amp;#20013;&amp;#24515;&lt;/a&gt;
+                    &lt;b&gt;|&lt;/b&gt;
+                    &lt;a href=&quot;https://baoxiao.alibabacorp.com/APPS/TES/Index.aspx&quot; target=&quot;_blank&quot;&gt;&amp;#21592;&amp;#24037;&amp;#25253;&amp;#38144;&lt;/a&gt;
+                    &lt;a href=&quot;https://legal.alibabacorp.com/bogda/user/index.htm&quot; target=&quot;_blank&quot;&gt;&amp;#27861;&amp;#21153;&amp;#20013;&amp;#24515;&lt;/a&gt;
+                    &lt;a href=&quot;https://work.alibaba-inc.com/work/links&quot; target=&quot;_blank&quot;&gt;&amp;#26356;&amp;#22810;&lt;span
+                    class=&quot;font-special&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;/a&gt;
+                &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;footer-bd&quot;&gt;
+                &lt;p class=&quot;copyright&quot;&gt;&amp;copy; 1999-2015 &amp;#38463;&amp;#37324;&amp;#24052;&amp;#24052;&amp;#38598;&amp;#22242; Powered by&lt;a target=&quot;_blank&quot;
+                href=&quot;https://work.alibaba-inc.com/work/team/employee/1469&quot;&gt;&amp;#20449;&amp;#24687;&amp;#24179;&amp;#21488;&amp;#20107;&amp;#19994;&amp;#37096;&lt;/a&gt;
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- E GLOBAL HTML --&gt;
+    &lt;script&gt;
+    seajs.use([
+    &#39;crystal&#39;,
+    &#39;platform/alinwDemo/src/modules/common.setup/index&#39;
+    ], function(crystal, setup) {
+    var app = crystal.app;
+    // 请求路径前缀和其他的应用级别的变量
+    app.set(&#39;demoPrefix&#39;, &#39;/demo/&#39;);
+    app.set(&#39;workPrefix&#39;, &#39;https://work.alibaba-inc.com/&#39;);
+    setup({
+    family: &#39;platform&#39;, // 前端组名
+    name: &#39;alinwDemo&#39;, // 前端应用名
+    pageTitle: &#39;Alinw Demo&#39;, // 页面标题（这里注意要做单引号双引号的转义）
+    debug: true, // 是否是测试环境
+    gitVersion: &#39;src&#39;, // 前端GIT版本号
+    csrfToken: &#39;&#39;,
+    defaultParams: { // 所有请求默认带上的参数
+    locale: &#39;zh-cn&#39;
+    },
+    appName: &#39;demo&#39;, // 在BUC注册的appName
+    backUrl: &#39;/demo/loginSuccess.htm&#39;, // 登录成功的回调页面
+    contextPath: &#39;demo&#39; // 后端应用名
+    });
+    });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>vm生成的线上生产html
+线上生产域名 <a href="https://aliwork.alicdn.com" target="_blank">https://aliwork.alicdn.com</a>
+daily域名 <a href="https://g-assets.daily.taobao.net" target="_blank">https://g-assets.daily.taobao.net</a></p>
+<pre><code class="html">&lt;!doctype html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;/&gt;
+        &lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;/&gt;
+        &lt;meta charset=&quot;utf-8&quot;/&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1 minimum-scale=1&quot;/&gt;
+        &lt;meta name=&quot;data-spm&quot; content=&quot;&quot;/&gt;
+        &lt;title&gt;Alinw Demo&lt;/title&gt;
+        &lt;!-- S GLOBAL Favicon --&gt;
+        &lt;link rel=&quot;apple-touch-icon-precomposed&quot; sizes=&quot;114x114&quot; href=&quot;//aliwork.alicdn.com/tps/i2/TB1Al7VFVXXXXcIXXXXazxJIVXX-144-144.png&quot;/&gt;
+        &lt;link rel=&quot;shortcut icon&quot; href=&quot;//aliwork.alicdn.com/tps/i3/TB1H68pGFXXXXX9XXXXFArBHXXX-48-48.ico&quot; type=&quot;image/x-icon&quot;&gt;
+        &lt;!-- E GLOBAL Favicon --&gt;
+
+        &lt;!-- S GLOBAL CSS --&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;//alinw.alicdn.com/??platform/common/s/1.1/global/global.css,alinw/kuma/3.0.4/kuma.css?t=201505220846&quot;/&gt;
+        &lt;!-- E GLOBAL CSS --&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://aliwork.alicdn.com/platform/alinwDemo/0.1.0/css/index.css&quot;/&gt;
+        &lt;!-- S GLOBAL JS --&gt;
+        &lt;script src=&quot;https://alinw.alipayobjects.com/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-style/1.0.2/seajs-style.js&quot;&gt;&lt;/script&gt;
+        &lt;!-- E GLOBAL JS --&gt;
+        &lt;script src=&quot;https://aliwork.alicdn.com/platform/alinwDemo/0.1.0/config.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+        seajs.config({
+
+
+        alias: {
+        handlebars: &#39;alinw/handlebars/1.3.0/runtime&#39;
+        },
+
+        vars: {
+        locale: &#39;zh-cn&#39;
+        }
+        });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body data-spm=&quot;&quot; class=&quot;i18n-zh-cn&quot;&gt;
+        &lt;!-- S GLOBAL Monitor --&gt;
+        &lt;script id=&quot;tb-beacon-aplus&quot; src=&quot;//alinw.alicdn.com/alilog/mlog/aplus_v2.js&quot; exparams=&quot;category=&amp;amp;userid=&amp;amp;aplus&amp;amp;yunid=&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;//alinw.alicdn.com/platform/common/s/1.1/monitor/goldlog.js?t=201506011615&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;//alinw.alicdn.com/tb/tracker/1.0.19/index.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;try{JSTracker.config(&#39;sampling&#39;,1);JSTracker.config(&#39;nick&#39;,window.__getUserId?__getUserId():&#39;0&#39;)}catch(e){}&lt;/script&gt;
+        &lt;!-- E GLOBAL Monitor --&gt;
+        &lt;!-- S GLOBAL HTML --&gt;
+        &lt;div id=&quot;ais-remote-header&quot; style=&quot;height: 36px;&quot;&gt;&lt;/div&gt;
+        &lt;script type=&quot;text/javascript&quot;
+        src=&quot;//alinw.alicdn.com/??platform/openwork/jssdk/sdk.min.js,secdev/pointman/js/index.js?t=201506011615&quot;
+        app=&quot;alinw&quot;&gt;&lt;/script&gt;
+
+
+
+
+        &lt;script type=&quot;text/javascript&quot;&gt;
+        TOP.ui(&#39;headhr&#39;, {
+        container: &#39;#ais-remote-header&#39;,
+        pageWidth: &#39;1000&#39;,
+        locale: &#39;zh-cn&#39;,
+        theme: &#39;white&#39;
+        })
+        &lt;/script&gt;
+        &lt;!-- E GLOBAL HTML   --&gt;
+        &lt;div class=&quot;header&quot;&gt;
+            &lt;div class=&quot;kuma-container-1000&quot;&gt;
+                &lt;a class=&quot;logo&quot; href=&quot;https://work.alibaba-inc.com/work/home&quot;&gt;&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;kuma-container main&quot;&gt;
+            &lt;div class=&quot;kuma-form&quot; data-widget=&quot;~/demo.filter/&quot;&gt;&lt;/div&gt;
+            &lt;div data-widget=&quot;~/demo.list/&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;!-- S GLOBAL HTML --&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+        .footer {
+        position: relative;
+        font: 12px/1.5 tahoma, arial, &#39;Hiragino Sans GB&#39;, \5b8b\4f53, sans-serif;
+
+        padding-left: 10px;
+        padding-right: 10px;
+
+        margin: 0 auto;
+        text-align: center;
+        color: #999;
+        padding-bottom: 10px;
+        }
+        .footer .footer-hd,
+        .footer .footer-bd {
+        line-height: 27px;
+        }
+        .footer .footer-hd {
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #dfdede;
+        }
+        .footer a {
+        color: #999;
+        padding: 0 3px;
+        text-decoration: none;
+        }
+        .footer a:hover {
+        color: #288df0;
+        }
+        .footer b,
+        .footer .font-special {
+        font-family: &#39;simsun&#39;, sans-serif;
+        }
+        &lt;/style&gt;
+        &lt;div id=&quot;footer&quot; class=&quot;footer border-top&quot;&gt;
+            &lt;div class=&quot;footer-hd&quot;&gt;
+                &lt;p&gt;
+                    &lt;a href=&quot;https://admin.alibaba-inc.com/goods/adminhome/home.htm&quot; target=&quot;_blank&quot;&gt;&amp;#34892;&amp;#25919;&lt;/a&gt;
+                    &lt;a href=&quot;https://meeting.alibaba-inc.com/&quot; target=&quot;_blank&quot;&gt;&amp;#20250;&amp;#35758;&amp;#23460;&lt;/a&gt;
+                    &lt;b&gt;|&lt;/b&gt;
+                    &lt;a href=&quot;https://ehr.alibaba-inc.com/welfare/&quot; target=&quot;_blank&quot;&gt;&amp;#20840;&amp;#27225;&amp;#29233;&lt;/a&gt;
+                    &lt;a href=&quot;https://iperformance.alibaba-inc.com/performance&quot; target=&quot;_blank&quot;&gt;&amp;#32489;&amp;#25928;&lt;/a&gt;
+                    &lt;a href=&quot;https://alihr.alibaba.com:4430&quot; target=&quot;_blank&quot;&gt;PS&lt;/a&gt;
+                    &lt;a href=&quot;https://hr.alibaba-inc.com/zhaopin&quot; target=&quot;_blank&quot;&gt;&amp;#25512;&amp;#33616;/&amp;#36716;&amp;#23703;&lt;/a&gt;
+                    &lt;a href=&quot;https://ehr.alibaba-inc.com/sc/&quot; target=&quot;_blank&quot;&gt;HR&amp;#26381;&amp;#21153;&amp;#20013;&amp;#24515;&lt;/a&gt;
+                    &lt;b&gt;|&lt;/b&gt;
+                    &lt;a href=&quot;https://it.alibaba-inc.com/portal/homepage&quot; target=&quot;_blank&quot;&gt;IT&lt;/a&gt;
+                    &lt;a href=&quot;https://alilang.alibaba-inc.com&quot; target=&quot;_blank&quot;&gt;&amp;#38463;&amp;#37324;&amp;#37070;&lt;/a&gt;
+                    &lt;a href=&quot;https://webmail.alibaba-inc.com/alimail/&quot; target=&quot;_blank&quot;&gt;&amp;#38463;&amp;#37324;&amp;#20113;&amp;#37038;&lt;/a&gt;
+                    &lt;a href=&quot;https://asset.alibaba-inc.com/workflow/myassets/index&quot; target=&quot;_blank&quot;&gt;&amp;#36164;&amp;#20135;&amp;#24179;&amp;#21488;&lt;/a&gt;
+                    &lt;b&gt;|&lt;/b&gt;
+                    &lt;a href=&quot;https://bpms.alibaba-inc.com&quot; target=&quot;_blank&quot;&gt;&amp;#27969;&amp;#31243;&amp;#24179;&amp;#21488;&lt;/a&gt;
+                    &lt;a href=&quot;https://iportal.alibabacorp.com/portal/default.aspx&quot; target=&quot;_blank&quot;&gt;&amp;#36130;&amp;#21153;&amp;#20013;&amp;#24515;&lt;/a&gt;
+                    &lt;b&gt;|&lt;/b&gt;
+                    &lt;a href=&quot;https://baoxiao.alibabacorp.com/APPS/TES/Index.aspx&quot; target=&quot;_blank&quot;&gt;&amp;#21592;&amp;#24037;&amp;#25253;&amp;#38144;&lt;/a&gt;
+                    &lt;a href=&quot;https://legal.alibabacorp.com/bogda/user/index.htm&quot; target=&quot;_blank&quot;&gt;&amp;#27861;&amp;#21153;&amp;#20013;&amp;#24515;&lt;/a&gt;
+                    &lt;a href=&quot;https://work.alibaba-inc.com/work/links&quot; target=&quot;_blank&quot;&gt;&amp;#26356;&amp;#22810;&lt;span
+                    class=&quot;font-special&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;/a&gt;
+                &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;footer-bd&quot;&gt;
+                &lt;p class=&quot;copyright&quot;&gt;&amp;copy; 1999-2015 &amp;#38463;&amp;#37324;&amp;#24052;&amp;#24052;&amp;#38598;&amp;#22242; Powered by&lt;a target=&quot;_blank&quot;
+                href=&quot;https://work.alibaba-inc.com/work/team/employee/1469&quot;&gt;&amp;#20449;&amp;#24687;&amp;#24179;&amp;#21488;&amp;#20107;&amp;#19994;&amp;#37096;&lt;/a&gt;
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- E GLOBAL HTML --&gt;
+    &lt;script&gt;
+    seajs.use([
+    &#39;crystal&#39;,
+    &#39;platform/alinwDemo/0.1.0/modules/common.setup/index&#39;
+    ], function(crystal, setup) {
+    var app = crystal.app;
+    // 请求路径前缀和其他的应用级别的变量
+    app.set(&#39;demoPrefix&#39;, &#39;/demo/&#39;);
+    app.set(&#39;workPrefix&#39;, &#39;https://work.alibaba-inc.com/&#39;);
+    setup({
+    family: &#39;platform&#39;, // 前端组名
+    name: &#39;alinwDemo&#39;, // 前端应用名
+    pageTitle: &#39;Alinw Demo&#39;, // 页面标题（这里注意要做单引号双引号的转义）
+    debug: true, // 是否是测试环境
+    gitVersion: &#39;0.1.0&#39;, // 前端GIT版本号
+    csrfToken: &#39;&#39;,
+    defaultParams: { // 所有请求默认带上的参数
+    locale: &#39;zh-cn&#39;
+    },
+    appName: &#39;demo&#39;, // 在BUC注册的appName
+    backUrl: &#39;/demo/loginSuccess.htm&#39;, // 登录成功的回调页面
+    contextPath: &#39;demo&#39; // 后端应用名
+    });
+    });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>资源</h2>
+<ul>
+<li>官网 <a href="http://seajs.org/docs/#docs" target="_blank">http://seajs.org/docs/#docs</a></li>
+<li>demo <a href="https://github.com/kangning1206/seajsDemo/" target="_blank">https://github.com/kangning1206/seajsDemo/</a></li>
+<li>前端ux网站 <a href="http://ux.alibaba.net/" target="_blank">http://ux.alibaba.net/</a></li>
+</ul>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodePPT v1.4.1</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="./js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="./js/mixjs/lib/event/broadcast.js"></script>
+<script src="./js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'cards',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+<script src="./src/js/demo.js"></script>
+<link rel="stylesheet" href="./src/css/demo.css">
+
+<!--placeholder-->
+</body>
+</html>

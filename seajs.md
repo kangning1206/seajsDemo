@@ -14,7 +14,7 @@ files: /src/js/demo.js,/src/css/demo.css
 
 [slide]
 
-## iframe效果
+## demo
 ----
 <iframe data-src="http://127.0.0.1:8000/demo1.htm" src="about:blank;"></iframe>
 
@@ -67,7 +67,7 @@ files: /src/js/demo.js,/src/css/demo.css
 
 # seajs 是什么?
 
-seajs 是一个遵循`CommonJS规范`的JavaScript`模块加载`框架，可以实现JavaScript的模块化开发及加载机制
+seajs 是一个遵循`CommonJS规范`的JavaScript`模块加载`框架，可以实现JavaScript的模块化开发及加载机制，主要包含模块定义、模块引用、模块标识3个部分；
 
 <a href="#9">一个简单的模块</a>
 
@@ -290,6 +290,11 @@ require("my-module");
 require("./my-module");
 
 ```
+
+## 模块标识
+
+标识就是传递给require方法的参数，小驼峰命名规则、或者./和../开头的相对路径、/开头的绝对路径，一般无需指定`.js`后缀;
+它的意义在于将类聚的方法和变量等限定在私有的作用域中，每个模块具有独立的空间，它们互不干扰，在引用时也显得干净利落;
 
 注意事项-约定
 ----

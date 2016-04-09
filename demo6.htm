@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <meta name="renderer" content="webkit"/>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1 minimum-scale=1"/>
+        <meta name="data-spm" content=""/>
+        <title>demo1</title>
+        <!-- S GLOBAL CSS -->
+        <!-- E GLOBAL CSS -->
+        <!-- S GLOBAL JS -->
+        <script src="https://a.alipayobjects.com/??seajs/seajs/2.2.3/sea.js,seajs/seajs-combo/1.0.0/seajs-combo.js,seajs/seajs-text/1.0.2/seajs-text.js,seajs/seajs-style/1.0.2/seajs-style.js,seajs/seajs-log/1.0.0/seajs-log.js,gallery/json/1.0.3/json.js"></script>
+        <!-- E GLOBAL JS -->
+
+        <script>
+        seajs.config({
+            // local environment begin
+                // local environment end
+             paths: {
+                   platform: 'http://127.0.0.1:8080/dist/platform'
+             },
+            alias:{
+                handlebars      : 'alinw/handlebars/1.3.0/handlebars',
+                demo2:'/src/demo2',
+                demo4:'/src/demo4',
+                $: 'jquery/jquery/1.9.1/jquery',
+                jquery: 'jquery/jquery/1.9.1/jquery'
+            },
+            preload: ['$'],
+            vars: {
+                locale: 'zh-cn'
+            }
+        });
+        </script>
+
+    </head>
+    <body>
+        <div id="demo6"></div>
+
+       
+
+        <script type="text/javascript">
+        seajs.use(['./src/demo6'], function(demo6) {
+            demo6.start();
+         });
+        </script>
+    </body>
+</html>
