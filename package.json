@@ -4,7 +4,6 @@
     "version": "0.0.1",
     "description": "seajsDemo",
     "dependencies": {
-        "@ali/nowa-common": "latest",
         "cmd-nice": "^0.3.30",
         "gulp": "^3.8.11",
         "gulp-cmd-nice": "^0.3.30",

@@ -14,7 +14,7 @@ var shutils = require("shutils");
 var filesystem = shutils.filesystem;
 var StringUtils = require("underscore.string");
 
-var gulp = require("@ali/nowa-common");
+var gulp = require("gulp");
 var uglify = require("gulp-uglify");
 var GulpCmdNice = require("gulp-cmd-nice");
 var rename = require("gulp-rename");
@@ -22,7 +22,6 @@ var gulpFilter = require("gulp-filter");
 var gulpif = require("gulp-if");
 var less = require("gulp-less");
 var minifyCSS = require("gulp-minify-css");
-// var GulpChanged = require("@ali/gulp-changed");
 var CmdNice = require("cmd-nice");
 var getRepoInfo = require("./lib/repoInfo");
 var yargs = require("yargs");
