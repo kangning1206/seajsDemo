@@ -1,6 +1,6 @@
 {
     "name": "seajsDemo",
-    "family": "platform",
+    "family": "groupName",
     "version": "0.0.1",
     "description": "seajsDemo",
     "dependencies": {
